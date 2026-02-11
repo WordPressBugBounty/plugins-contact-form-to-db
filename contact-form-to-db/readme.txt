@@ -1,7 +1,7 @@
 === Contact Form to DB by BestWebSoft - Messages Database Plugin For WordPress ===
-Contributors: bestwebsoft
+Contributors: bestweblayout
 Donate link: https://bestwebsoft.com/donate/
-Tags: browse messages, cf add on, contact button, contact form add on, contact form parameters, contact form plugin, contact form to db, save messages, download messages, contact us form, web page feedback, delete messages
+Tags: browse messages, cf add on, contact button, contact form add on, contact form parameters
 Requires at least: 5.6
 Tested up to: 6.8
 Stable tag: 1.7.4
