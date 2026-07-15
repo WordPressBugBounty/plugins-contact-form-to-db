@@ -6,7 +6,7 @@ Description: Save and manage contact form messages. Never lose important data.
 Author: BestWebSoft
 Text Domain: contact-form-to-db
 Domain Path: /languages
-Version: 1.7.4
+Version: 1.7.5
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
  */
@@ -572,6 +572,14 @@ if ( ! function_exists( 'cntctfrmtdb_get_mail_data' ) ) {
 						$value                                   = isset( $_POST[ 'cntctfrm_contact_custom_field_' . $single_field['id'] ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'cntctfrm_contact_custom_field_' . $single_field['id'] ] ) ) : '';
 						$custom_fields_cf[ $custom_field_title ] = $value;
 					}
+				}
+			} else {
+				if ( isset( $_POST['cntctfrm_contact_dropdown'] ) ) {
+					if ( empty( $cntctfrm_options_for_this_plugin ) ) {
+						cntctfrm_options_for_this_plugin();
+					}
+					$lang = isset( $_POST['cntctfrm_language'] ) ? sanitize_text_field( wp_unslash( $_POST['cntctfrm_language'] ) ) : 'default';
+					$custom_fields_cf = array( $cntctfrm_options_for_this_plugin['dropdown_label'][ $lang ] => sanitize_text_field( wp_unslash( $_POST['cntctfrm_contact_dropdown'] ) ) );
 				}
 			}
 
@@ -2023,7 +2031,7 @@ if ( ! class_exists( 'Cntctfrmtdb_Manager' ) ) {
 					$custom_fields          = unserialize( $value->custom_fields );
 					$custom_fields_content .= '<div class="custom-fields-container">';
 					foreach ( $custom_fields as $key => $custom_field ) {
-						$custom_fields_content .= '<div class="cntctfrmtdb-custom-field-text"><strong>' . $key . ':</strong> ';
+						$custom_fields_content .= '<div class="cntctfrmtdb-custom-field-text"><strong>' . trim( $key, ':' ) . ':</strong> ';
 						$custom_fields_content .= $custom_field . '</div>';
 					}
 					$custom_fields_content .= '</div>';
