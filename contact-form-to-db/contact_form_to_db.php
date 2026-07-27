@@ -6,7 +6,7 @@ Description: Save and manage contact form messages. Never lose important data.
 Author: BestWebSoft
 Text Domain: contact-form-to-db
 Domain Path: /languages
-Version: 1.7.5
+Version: 1.7.6
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
  */
@@ -36,7 +36,7 @@ if ( ! function_exists( 'cntctfrmtdb_admin_menu' ) ) {
 	function cntctfrmtdb_admin_menu() {
 		global $submenu, $wp_version, $cntctfrmtdb_plugin_info;
 
-		$hook = add_menu_page( 'CF to DB', 'CF to DB', 'edit_posts', 'cntctfrmtdb_manager', 'cntctfrmtdb_manager_page', 'none', '56.1' );
+		$hook = add_menu_page( 'CF to DB', 'CF to DB', 'manage_options', 'cntctfrmtdb_manager', 'cntctfrmtdb_manager_page', 'none', '56.1' );
 		add_submenu_page( 'cntctfrmtdb_manager', __( 'Contact Form 7 to DB Pro', 'contact-form-to-db' ), 'CF7 to DB', 'manage_options', 'cntctfrmtdb_manager_cf7', 'cntctfrmtdb_manager_pro' );
 		add_submenu_page( 'cntctfrmtdb_manager', __( 'Pojo Form to DB Pro', 'contact-form-to-db' ), 'POJO to DB', 'manage_options', 'cntctfrmtdb_manager_pojo', 'cntctfrmtdb_manager_pro' );
 
@@ -2308,7 +2308,7 @@ if ( ! function_exists( 'cntctfrmtdb_read_message' ) ) {
 	function cntctfrmtdb_read_message() {
 		global $wpdb;
 		check_ajax_referer( plugin_basename( __FILE__ ), 'cntctfrmtdb_ajax_nonce_field' );
-		if ( isset( $_POST['cntctfrmtdb_ajax_read_status'] ) && isset( $_POST['cntctfrmtdb_ajax_message_id'] ) ) {
+		if ( isset( $_POST['cntctfrmtdb_ajax_read_status'] ) && isset( $_POST['cntctfrmtdb_ajax_message_id'] ) && current_user_can( 'manage_options' ) ) {
 			$wpdb->update( $wpdb->prefix . 'cntctfrmtdb_message', array( 'was_read' => sanitize_text_field( wp_unslash( $_POST['cntctfrmtdb_ajax_read_status'] ) ) ), array( 'id' => absint( $_POST['cntctfrmtdb_ajax_message_id'] ) ) );
 		}
 		die();
@@ -2339,7 +2339,7 @@ if ( ! function_exists( 'cntctfrmtdb_change_status' ) ) {
 	function cntctfrmtdb_change_status() {
 		global $wpdb;
 		check_ajax_referer( plugin_basename( __FILE__ ), 'cntctfrmtdb_ajax_nonce_field' );
-		if ( isset( $_POST['cntctfrmtdb_ajax_message_status'] ) && isset( $_POST['cntctfrmtdb_ajax_message_id'] ) ) {
+		if ( isset( $_POST['cntctfrmtdb_ajax_message_status'] ) && isset( $_POST['cntctfrmtdb_ajax_message_id'] ) && current_user_can( 'manage_options' ) ) {
 			$wpdb->update( $wpdb->prefix . 'cntctfrmtdb_message', array( 'status_id' => sanitize_text_field( wp_unslash( $_POST['cntctfrmtdb_ajax_message_status'] ) ) ), array( 'id' => absint( $_POST['cntctfrmtdb_ajax_message_id'] ) ) );
 			if ( ! $wpdb->last_error ) {
 				switch ( $_POST['cntctfrmtdb_ajax_message_status'] ) {
